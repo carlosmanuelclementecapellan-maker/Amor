@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para ti 💖</title>
+
+<style>
+body { margin:0; overflow:hidden; font-family:Arial; }
+
+.screen {
+  position:absolute; width:100%; height:100%;
+  display:flex; justify-content:center; align-items:center;
+  flex-direction:column;
+}
+
+#screen1 { background:linear-gradient(135deg,#ff4d88,#6a00ff); color:white; }
+
+.btns { display:flex; gap:15px; }
+
+button { padding:12px 25px; border:none; border-radius:25px; }
+
+#yes { background:#00ffcc; }
+#no { background:white; }
+
+#screen2 { background:black; color:white; display:none; }
+#screen3 { display:none; background:black; }
+
+#musicBtn {
+  position:fixed; top:15px; left:15px; z-index:10;
+}
+
+/* galaxia */
+#viewport {
+  width:100vw; height:100vh;
+  overflow:hidden;
+  touch-action:none;
+}
+
+#world {
+  width:2000px; height:2000px;
+  position:absolute;
+}
+
+/* planeta grande */
+#planet {
+  width:320px; height:320px;
+  background:radial-gradient(circle,#00f7ff,#001eff);
+  border-radius:50%;
+  position:absolute;
+  top:1000px; left:1000px;
+  transform:translate(-50%,-50%);
+  box-shadow:0 0 100px #00f7ff;
+}
+
+/* palabras */
+.word {
+  position:absolute;
+  font-size:14px;
+  font-weight:bold;
+}
+
+.word:nth-child(3n){color:#ff4d88;}
+.word:nth-child(3n+1){color:#00f7ff;}
+.word:nth-child(3n+2){color:#ffd700;}
+
+/* estrellas */
+.star{
+  position:absolute;
+  width:2px; height:2px;
+  background:white;
+  animation:twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle{
+  from{opacity:0.3;}
+  to{opacity:1;}
+}
+</style>
+</head>
+
+<body>
+
+<div id="screen1" class="screen">
+  <h2>¿Quieres ser mi novi@? 💖</h2>
+  <div class="btns">
+    <button id="yes">Sí 💕</button>
+    <button id="no">No 😢</button>
+  </div>
+</div>
+
+<div id="screen2" class="screen">
+  <h2>Sabía que dirías que sí 😍</h2>
+  <button onclick="irGalaxy()">Ver sorpresa 🎁</button>
+</div>
+
+<div id="screen3">
+
+<button id="musicBtn">🎶</button>
+
+<audio id="music">
+  <source src="perfect.mp3" type="audio/mpeg">
+</audio>
+
+<div id="viewport">
+  <div id="world">
+    <div id="planet"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+
+// botones
+const yes=document.getElementById("yes");
+const no=document.getElementById("no");
+const s1=document.getElementById("screen1");
+const s2=document.getElementById("screen2");
+const s3=document.getElementById("screen3");
+
+yes.onclick=()=>{ s1.style.display="none"; s2.style.display="flex"; };
+
+function irGalaxy(){
+  s2.style.display="none";
+  s3.style.display="block";
+}
+
+no.onclick=()=>{
+  no.style.position="absolute";
+  no.style.left=Math.random()*80+"%";
+  no.style.top=Math.random()*80+"%";
+};
+
+// música
+const music=document.getElementById("music");
+const btn=document.getElementById("musicBtn");
+
+btn.onclick=()=>{
+  if(music.paused){
+    music.play();
+    btn.innerText="⏸️";
+  }else{
+    music.pause();
+    btn.innerText="🎶";
+  }
+};
+
+// galaxia
+const world=document.getElementById("world");
+
+// estrellas
+for(let i=0;i<400;i++){
+  let s=document.createElement("div");
+  s.className="star";
+  s.style.left=Math.random()*2000+"px";
+  s.style.top=Math.random()*2000+"px";
+  world.appendChild(s);
+}
+
+// 💬 MUCHAS PALABRAS (100+)
+const palabras=[
+"Mi amor 💖","Mi vida 💕","Te amo ❤️","Mi todo ✨","Mi cielo ☁️","Mi mundo 🌎","Mi razón 💫",
+"Mi felicidad 😍","Mi alegría 😊","Mi princesa 👑","Mi reina 👸","Mi universo 🌌",
+"Mi luz ✨","Mi sueño 😴","Mi destino 💞","Mi corazón ❤️","Mi ilusión 🌈","Mi magia ✨",
+"Mi estrella ⭐","Mi paz ☮️","Mi eternidad ♾️","Mi inspiración 💡","Mi bebé 🥺","Mi niña 💕",
+"Eres todo 💖","Eres perfecta 😍","Eres única 💎","Eres especial ✨","Eres increíble 🔥",
+"Eres hermosa 🌹","Siempre tú 💘","Solo tú ❤️","Para siempre ♾️","Contigo todo 💕",
+"Eres mi hogar 🏡","Mi persona favorita 💖","Mi sonrisa 😊","Mi debilidad 🥺",
+"Mi fuerza 💪","Mi amorcito 💞","Mi chiquita 💕","Mi bonita 🌹","Mi reina hermosa 👑",
+"Mi cielo lindo ☁️","Mi amor eterno ♾️","Mi felicidad completa 😍","Mi razón de sonreír 😊",
+"Mi vida entera 💖","Mi lugar seguro 🏡","Mi todo siempre 💕","Mi persona ❤️",
+"Mi tesoro 💎","Mi cariño 💕","Mi dulce amor 🍯","Mi felicidad diaria 😊",
+"Mi amor infinito ♾️","Mi otra mitad 💞","Mi sueño hecho realidad ✨",
+"Mi universo entero 🌌","Mi razón de vivir ❤️","Mi bendición 🙏","Mi angelito 😇",
+"Mi amor bonito 💖","Mi dulzura 🍯","Mi felicidad eterna 😍","Mi mundo perfecto 🌎",
+"Mi alegría infinita 😊","Mi sueño perfecto ✨","Mi corazón feliz ❤️",
+"Mi vida hermosa 💕","Mi amor verdadero ❤️","Mi todo precioso 💖"
+];
+
+let words=[];
+
+palabras.forEach((t,i)=>{
+  let span=document.createElement("span");
+  span.className="word";
+  span.innerText=t;
+
+  let angle=i*0.35;
+  let radius=200+i*12;
+
+  span.dataset.a=angle;
+  span.dataset.r=radius;
+
+  world.appendChild(span);
+  words.push(span);
+});
+
+// animación
+function anim(){
+  words.forEach(w=>{
+    let a=parseFloat(w.dataset.a);
+    let r=parseFloat(w.dataset.r);
+
+    a+=0.002;
+
+    let x=1000+r*Math.cos(a);
+    let y=1000+r*Math.sin(a);
+
+    w.style.left=x+"px";
+    w.style.top=y+"px";
+
+    w.dataset.a=a;
+  });
+  requestAnimationFrame(anim);
+}
+anim();
+
+// DRAG + ZOOM
+let scale=1, x=0, y=0;
+let startX, startY, dragging=false;
+
+const vp=document.getElementById("viewport");
+
+vp.addEventListener("touchstart",e=>{
+  if(e.touches.length==1){
+    dragging=true;
+    startX=e.touches[0].clientX-x;
+    startY=e.touches[0].clientY-y;
+  }
+});
+
+vp.addEventListener("touchmove",e=>{
+  if(e.touches.length==1 && dragging){
+    x=e.touches[0].clientX-startX;
+    y=e.touches[0].clientY-startY;
+    update();
+  }
+
+  if(e.touches.length==2){
+    let dx=e.touches[0].clientX-e.touches[1].clientX;
+    let dy=e.touches[0].clientY-e.touches[1].clientY;
+    let dist=Math.sqrt(dx*dx+dy*dy);
+
+    if(!vp.dataset.d){ vp.dataset.d=dist; }
+    else{
+      let delta=dist-vp.dataset.d;
+      scale+=delta*0.005;
+      scale=Math.min(Math.max(0.5,scale),3);
+      vp.dataset.d=dist;
+      update();
+    }
+  }
+});
+
+vp.addEventListener("touchend",()=>{
+  dragging=false;
+  vp.dataset.d=null;
+});
+
+function update(){
+  world.style.transform=`translate(${x}px,${y}px) scale(${scale})`;
+}
+
+</script>
+
+</body>
+</html>
